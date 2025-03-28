@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:model="clr-namespace:TodoMauiApp.ViewModel"
+             x:Class="TodoMauiApp.View.MainPage">
+
+    <ScrollView>
+        <VerticalStackLayout
+            x:DataType="model:MainPageViewModel"
+            Padding="30,0"
+            Spacing="25">
+
+            <Label
+                Text="Meine Todo's!"
+                Style="{StaticResource Headline}"
+                 />
+
+            <Grid
+                ColumnDefinitions="3*,*"
+                RowSpacing="10"
+                HorizontalOptions="Fill">
+
+                <Entry
+                 Text="{Binding NewTodo.Title}"
+                 Placeholder="Enter your todo"
+                 SemanticProperties.Hint="Enter your todo title"
+                 />
+
+                <DatePicker Grid.Column="1"
+                     Date="{Binding NewTodo.Due}"
+                     SemanticProperties.Hint="Select the date for your todo"
+                  />
+            </Grid>
+
+            <!--<Label Text="{Binding SelectedItem2}" />-->
+
+            <Button
+                Text="New Todo" 
+                Command="{Binding AddTodoCommand}"
+                HorizontalOptions="Fill" />
+
+
+            <Button
+                Text="Change Todo" 
+                Command="{Binding ChangeTodoCommand}"
+                HorizontalOptions="Fill" />
+
+            
+            <CollectionView 
+                ItemsSource="{Binding Todos}"
+                x:DataType="model:MainPageViewModel"
+                SelectedItem="{Binding SelectedItem2}"
+                SelectionMode="Single">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate
+                        x:DataType="model:TodoViewModel"
+                        >
+                        <Border
+                            Padding="5"
+                            Margin="0,10"
+                            Stroke="{StaticResource Primary}"
+                            StrokeThickness="5"
+                        >
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="10"/>
+                            </Border.StrokeShape>
+
+                            <VerticalStackLayout>
+                                <Label Text="{Binding Title }" />
+                                <Label Text="{Binding Due }" />
+                                <CheckBox IsChecked ="{Binding Finished}" />
+                            </VerticalStackLayout>
+                        </Border>
+
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+
+            </CollectionView>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
